@@ -19,7 +19,7 @@ export const Pagination: React.FC<Props> = ({
 
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= pageCount) {
-      onPageChange(page);
+      handlePageChange(count);
     }
   };
 
