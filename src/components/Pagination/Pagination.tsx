@@ -1,1 +1,67 @@
-export const Pagination = () => {};
+import cn from 'classnames';
+import React from 'react';
+import { getNumbers } from '../../utils';
+
+type Props = {
+  total: number;
+  perPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+};
+export const Pagination: React.FC<Props> = ({
+  total,
+  perPage,
+  currentPage = 1,
+  onPageChange,
+}) => {
+  const pageCount = Math.ceil(total / perPage);
+  const listItems = getNumbers(1, pageCount).map(n => n);
+
+  return (
+    <ul className="pagination">
+      <li
+        className={cn('page-item', { disabled: currentPage === 1 })}
+        onClick={() => onPageChange(currentPage <= 1 ? 1 : currentPage - 1)}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+        >
+          «
+        </a>
+      </li>
+      {listItems.map(count => (
+        <li
+          key={count}
+          className={cn('page-item ', { active: currentPage === count })}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            onClick={() => onPageChange(count)}
+            href={`#${count}`}
+          >
+            {count}
+          </a>
+        </li>
+      ))}
+      <li
+        className={cn('page-item', { disabled: currentPage === pageCount })}
+        onClick={() =>
+          onPageChange(currentPage >= pageCount ? pageCount : currentPage + 1)
+        }
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+            aria-disabled={currentPage === pageCount}
+        >
+          »
+        </a>
+      </li>
+    </ul>
+  );
+};
