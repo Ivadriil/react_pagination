@@ -17,15 +17,18 @@ export const Pagination: React.FC<Props> = ({
   const pageCount = Math.ceil(total / perPage);
   const listItems = getNumbers(1, pageCount).map(n => n);
 
-  const handlePageChange = (page: number) => {
+    const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= pageCount) {
-      handlePageChange(count);
+      onPageChange(page);
     }
   };
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+      <li
+        className={cn('page-item', { disabled: currentPage === 1 })}
+        
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -44,14 +47,16 @@ export const Pagination: React.FC<Props> = ({
           <a
             data-cy="pageLink"
             className="page-link"
-            onClick={() => onPageChange(count)}
+            onClick={() => handlePageChange(count)}
             href={`#${count}`}
           >
             {count}
           </a>
         </li>
       ))}
-      <li className={cn('page-item', { disabled: currentPage === pageCount })}>
+      <li
+        className={cn('page-item', { disabled: currentPage === pageCount })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
